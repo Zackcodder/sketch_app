@@ -45,6 +45,7 @@ class DrawingProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  ///this function is to set the background color
   void setColor(Color color) {
     _color = color;
     notifyListeners();
@@ -56,6 +57,8 @@ class DrawingProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  ///this function is to clear the stroke
+  ///on the canvas
   void clearPoints() {
     _points.clear();
     _textElements.clear();
@@ -63,6 +66,7 @@ class DrawingProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  ///funtion to carry out adding of text by user
   void addText(String text, Offset position) {
     TextElement textElement = TextElement(text, position, _currentTextStyle);
     _textElements.add(textElement);
@@ -70,11 +74,15 @@ class DrawingProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateTextStyle(TextStyle style) {
+  ///this function is to change
+  ///and uodate the selected text style
+  ///by the user
+  updateTextStyle(TextStyle style) {
     _currentTextStyle = style;
   }
 
-  void undo() {
+  ///this funtion is to peform undo function
+  undo() {
     if (_actionStack.isNotEmpty) {
       DrawingAction lastAction = _actionStack.removeLast();
       if (lastAction is DrawAction) {
@@ -86,21 +94,30 @@ class DrawingProvider with ChangeNotifier {
     }
   }
 
+  ///this is to update the canvas to show
+  ///the changes when a user is drawing
   void addDrawing(DrawingModel drawing) {
     _drawings.add(drawing);
     notifyListeners();
   }
 
+  ///to update the color of the stroke
+  /// when the user changes the color
   void updateCurrentColor(Color color) {
     _currentColor = color;
     notifyListeners();
   }
 
+  ///this is to clear the canvas
+  ///and return it to defauls blank screen
   void clearCanvas() {
     _drawings.clear();
     notifyListeners();
   }
 
+  ///this is to get the location
+  ///where the drawing being store
+  ///by the user is going to be
   Future<String> _getDrawingDirectory() async {
     final directory = await getApplicationDocumentsDirectory();
     final path = '${directory.path}/drawings';
@@ -111,6 +128,9 @@ class DrawingProvider with ChangeNotifier {
     return path;
   }
 
+  ///this function carrys out
+  ///saving of the present state of the canvas
+  /// as to allow the user load n go back to it
   Future<void> saveDrawing(String filename) async {
     final path = await _getDrawingDirectory();
     final file = File('$path/$filename.json');
@@ -137,6 +157,9 @@ class DrawingProvider with ChangeNotifier {
     await file.writeAsString(json.encode(drawingsJson));
   }
 
+  ///this function shows the saved files
+  ///done by thw user to be able
+  ///to load it and edit it again
   Future<void> loadDrawing(String filename) async {
     final path = await _getDrawingDirectory();
     final file = File('$path/$filename.json');
@@ -180,6 +203,8 @@ class DrawingProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  ///this function fetched the saved files for the user
+  ///and display it weh the user clicks on the open button
   Future<List<String>> getSavedDrawings() async {
     final path = await _getDrawingDirectory();
     final dir = Directory(path);

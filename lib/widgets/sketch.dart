@@ -22,18 +22,27 @@ class _SketchScreenState extends State<SketchScreen> {
     final backgroundProvider = Provider.of<BackgroundProvider>(context);
     return GestureDetector(
       onPanUpdate: (details) {
-        setState(() {
-          _points.add(details.localPosition);
-        });
-        drawingProvider.addDrawing(DrawingModel(
-          points: List.from(_points),
-          color: drawingProvider.currentColor,
-          strokeWidth: drawingProvider.strokeWidth,
-        ));
+        RenderBox renderBox = context.findRenderObject() as RenderBox;
+        Offset localPosition = renderBox.globalToLocal(details.globalPosition);
+        drawingProvider.addPoint(localPosition);
+        // setState(() {
+        //   _points.add(details.localPosition);
+        // });
+        // drawingProvider.addDrawing(DrawingModel(
+        //   points: List.from(_points),
+        //   color: drawingProvider.currentColor,
+        //   strokeWidth: drawingProvider.strokeWidth,
+        // ));
       },
       onPanEnd: (details) {
-        _points.clear();
-        drawingProvider.addPoint(const Offset(100, 100));
+        drawingProvider.addDrawing(DrawingModel(
+          points: List.from(drawingProvider.points),
+          color: drawingProvider.color,
+          strokeWidth: drawingProvider.strokeWidth,
+        ));
+        drawingProvider.clearPoints();
+        // _points.clear();
+        // drawingProvider.addPoint(const Offset(100, 100));
       },
       child: Stack(
         children: [

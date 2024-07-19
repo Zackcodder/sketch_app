@@ -30,22 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ///undo
           IconButton(
             icon: const Icon(FontAwesomeIcons.rotateLeft),
-            onPressed: () {
-              drawingProvider.undo();
-            },
-          ),
-
-          ///background image
-          IconButton(
-            icon: const Icon(FontAwesomeIcons.image),
-            onPressed: () async {
-              final pickedFile =
-                  await picker.pickImage(source: ImageSource.gallery);
-              if (pickedFile != null) {
-                backgroundProvider
-                    .setBackgroundImage(FileImage(File(pickedFile.path)));
-              }
-            },
+            onPressed: () => context.read<DrawingProvider>().undo(),
           ),
 
           ///clear the canvas
@@ -170,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
 
-          ///background color selection
+          ///background color  and image selection
           Positioned(
             right: 5,
             top: 0,
@@ -222,6 +207,33 @@ class _HomeScreenState extends State<HomeScreen> {
                       drawingProvider.setBackgroundColor(Colors.black);
                     },
                     color: Colors.black,
+                  ),
+
+                  /// add background image
+                  IconButton(
+                    icon: const Icon(
+                      FontAwesomeIcons.image,
+                      color: Color.fromARGB(255, 4, 96, 245),
+                    ),
+                    onPressed: () async {
+                      final pickedFile =
+                          await picker.pickImage(source: ImageSource.gallery);
+                      if (pickedFile != null) {
+                        backgroundProvider.setBackgroundImage(
+                            FileImage(File(pickedFile.path)));
+                      }
+                    },
+                  ),
+
+                  /// remove background image
+                  IconButton(
+                    icon: const Icon(
+                      Icons.remove_circle_outlined,
+                      color: Color.fromARGB(255, 4, 96, 245),
+                    ),
+                    onPressed: () async {
+                      backgroundProvider.clearBackgroundImage();
+                    },
                   ),
                 ],
               ),
