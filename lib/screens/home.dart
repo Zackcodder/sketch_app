@@ -94,7 +94,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Icon(
-                    // Icons.format_color_fill_outlined,
                     FontAwesomeIcons.paintbrush,
                     color: Colors.yellow,
                     size: 20,
@@ -122,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
             right: 0,
             bottom: 0,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 ///save file
                 Row(
@@ -176,6 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
             right: 5,
             top: 0,
             child: Container(
+              padding: const EdgeInsets.only(top: 5),
               decoration: BoxDecoration(
                 color: Colors.black.withOpacity(0.7),
                 borderRadius: BorderRadius.circular(4.0),
