@@ -46,6 +46,8 @@ class _HomeScreenState extends State<HomeScreen> {
         alignment: AlignmentDirectional.topCenter,
         children: [
           const SketchScreen(),
+
+          ///strock thickness controller
           SizedBox(
             width: 250,
             child: Column(
